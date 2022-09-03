@@ -53,7 +53,7 @@ const Chat: FC<ChatProps> = () => {
 
 	return (
 		<div className='mt-5'>
-			<ul className='list-group d-flex border border-primary bg-primary bg-opacity-50'>
+			<ul className='chat list-group d-flex border border-primary bg-primary bg-opacity-50'>
 				{messages.map((messageItem) => (
 					<Message
 						key={messageItem.date}
