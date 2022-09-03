@@ -4,7 +4,7 @@ import "./App.scss"
 import AppRouter from "./components/AppRouter/AppRouter"
 import { Provider } from "react-redux"
 import store from "./store"
-import "./firebase"
+import "./services/firebase"
 
 function App() {
 	return (

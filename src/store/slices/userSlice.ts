@@ -1,15 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit"
+import { IUser } from "../../types"
 
 interface IState {
 	loading: boolean
 	user: IUser
 	error: string | null
-}
-
-export interface IUser {
-	id: string | null
-	token: string | null
-	email: string | null
 }
 
 const initialState: IState = {
