@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom"
 import { useAppDispatch } from "../../hooks/redux-hook"
 import useAuth from "../../hooks/user-hook"
 import { removeUser } from "../../store/slices/userSlice"
-import { CHAT_ROUTE, LOGIN_ROUTE } from "../../utils/constants"
+import { ABOUT_ROUTE, CHAT_ROUTE, LOGIN_ROUTE } from "../../utils/constants"
 
 interface NavBarProps {}
 
@@ -25,6 +25,11 @@ const NavBar: FC<NavBarProps> = () => {
 						<li className='nav-item'>
 							<NavLink className='nav-link' to={CHAT_ROUTE}>
 								Chat
+							</NavLink>
+						</li>
+						<li className='nav-item'>
+							<NavLink className='nav-link' to={ABOUT_ROUTE}>
+								About
 							</NavLink>
 						</li>
 					</ul>
