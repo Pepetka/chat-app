@@ -16,7 +16,7 @@ export interface Inputs {
 const schema = yup
 	.object({
 		email: yup.string().email().required(),
-		password: yup.string().length(6).required(),
+		password: yup.string().min(6).required(),
 		rememberMe: yup.boolean(),
 	})
 	.required()

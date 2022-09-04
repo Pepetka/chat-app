@@ -7,6 +7,7 @@ import { REGISTER_ROUTE } from "../../utils/constants"
 import { showLoader, addUser, setError } from "../../store/slices/userSlice"
 import Loader from "../../components/Loader/Loader"
 import { auth } from "../../services/firebase"
+import { showAlert } from "../../store/slices/alertSlice"
 
 interface LoginPageProps {}
 
@@ -30,6 +31,12 @@ const LoginPage: FC<LoginPageProps> = () => {
 				if (rememberMe) localStorage.setItem("user", JSON.stringify(user))
 			})
 			.catch((error) => {
+				dispatch(
+					showAlert({
+						message: error.message,
+						alertType: "danger",
+					})
+				)
 				dispatch(setError({ error: error.message }))
 			})
 	}
@@ -54,10 +61,13 @@ const LoginPage: FC<LoginPageProps> = () => {
 				localStorage.setItem("user", JSON.stringify(user))
 			})
 			.catch((error) => {
-				// const errorCode = error.code
-				// const errorMessage = error.message
-				// const email = error.customData.email
-				// const credential = GoogleAuthProvider.credentialFromError(error)
+				dispatch(
+					showAlert({
+						message: error.message,
+						alertType: "danger",
+					})
+				)
+				dispatch(setError({ error: error.message }))
 			})
 	}
 
@@ -79,7 +89,7 @@ const LoginPage: FC<LoginPageProps> = () => {
 				</Link>
 			</div>
 			<button onClick={onLogin} type='button' className='btn btn-outline-primary w-100 mt-3'>
-				Login width Google
+				Login with Google
 			</button>
 		</div>
 	)

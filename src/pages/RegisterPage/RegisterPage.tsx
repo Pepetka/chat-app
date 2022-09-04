@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks/redux-hook"
 import { addUser, showLoader, setError } from "../../store/slices/userSlice"
 import Loader from "../../components/Loader/Loader"
 import { auth } from "../../services/firebase"
+import { showAlert } from "../../store/slices/alertSlice"
 
 interface RegisterPageProps {}
 
@@ -31,6 +32,12 @@ const RegisterPage: FC<RegisterPageProps> = () => {
 			})
 			.catch((error) => {
 				dispatch(setError({ error: error.message }))
+				dispatch(
+					showAlert({
+						message: error.message,
+						alertType: "danger",
+					})
+				)
 			})
 	}
 

@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, FormEvent, useEffect, useState } from "react"
+import { ChangeEvent, FC, FormEvent, useEffect, useRef, useState } from "react"
 import { ref, set, onValue } from "firebase/database"
 import { db } from "../../services/firebase"
 import useAuth from "../../hooks/user-hook"
@@ -15,6 +15,7 @@ const Chat: FC<ChatProps> = () => {
 	const { email } = useAuth()
 	const dispatch = useAppDispatch()
 	const { loading, messages } = useAppSelector((state) => state.messages)
+	const refUl = useRef<null | HTMLUListElement>(null)
 
 	const onMessageChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setMessage(event.currentTarget.value)
@@ -49,11 +50,18 @@ const Chat: FC<ChatProps> = () => {
 		// eslint-disable-next-line
 	}, [])
 
+	useEffect(() => {
+		if (refUl.current) refUl.current!.scrollTop = refUl.current!.scrollHeight
+	}, [messages])
+
 	if (loading) return <Loader />
 
 	return (
-		<div className='mt-5'>
-			<ul className='chat list-group d-flex border border-primary bg-primary bg-opacity-50'>
+		<div className='mt-3'>
+			<ul
+				ref={refUl}
+				className='chat list-group d-flex border border-primary bg-primary bg-opacity-50'
+			>
 				{messages.map((messageItem) => (
 					<Message
 						key={messageItem.date}
