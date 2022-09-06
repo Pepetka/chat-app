@@ -16,6 +16,7 @@ const AppRouter: FC<AppRouterProps> = () => {
 		const user = JSON.parse(localStorage.getItem("user")!)
 
 		if (user !== null) dispatch(addUser({ user }))
+
 		// eslint-disable-next-line
 	}, [])
 

@@ -24,7 +24,7 @@ const Chat: FC<ChatProps> = () => {
 	const onMessageSend = (event: FormEvent) => {
 		event.preventDefault()
 
-		set(ref(db, "users/" + messages.length), {
+		set(ref(db, "notes/" + messages.length), {
 			email: email,
 			date: new Date().toLocaleString(),
 			message,
@@ -34,7 +34,7 @@ const Chat: FC<ChatProps> = () => {
 	}
 
 	useEffect(() => {
-		const starCountRef = ref(db, "users/")
+		const starCountRef = ref(db, "notes/")
 		onValue(starCountRef, (snapshot) => {
 			const data: { [key: string]: IMessage } = snapshot.val()
 			const messagesArr: IMessage[] = []
@@ -57,7 +57,7 @@ const Chat: FC<ChatProps> = () => {
 	if (loading) return <Loader />
 
 	return (
-		<div className='mt-3'>
+		<>
 			<ul
 				ref={refUl}
 				className='chat list-group d-flex border border-primary bg-primary bg-opacity-50'
@@ -72,7 +72,7 @@ const Chat: FC<ChatProps> = () => {
 			</ul>
 
 			<form>
-				<div className='input-group mb-3 mt-3'>
+				<div className='input-group mt-3'>
 					<input
 						onChange={onMessageChange}
 						value={message}
@@ -80,16 +80,12 @@ const Chat: FC<ChatProps> = () => {
 						className='form-control border border-primary'
 						placeholder='Enter message'
 					/>
-					<button
-						className='btn btn-outline-primary'
-						type='submit'
-						onClick={(e) => onMessageSend(e)}
-					>
+					<button className='btn btn-outline-primary' type='submit' onClick={onMessageSend}>
 						Send
 					</button>
 				</div>
 			</form>
-		</div>
+		</>
 	)
 }
 

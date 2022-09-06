@@ -4,10 +4,11 @@ import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 
 import Form, { Inputs } from "../../components/Form/Form"
 import { useAppDispatch, useAppSelector } from "../../hooks/redux-hook"
 import { REGISTER_ROUTE } from "../../utils/constants"
-import { showLoader, addUser, setError } from "../../store/slices/userSlice"
+import { showLoader, setError, addUser } from "../../store/slices/userSlice"
 import Loader from "../../components/Loader/Loader"
 import { auth } from "../../services/firebase"
 import { showAlert } from "../../store/slices/alertSlice"
+import { IUser } from "../../types"
 
 interface LoginPageProps {}
 
@@ -48,12 +49,12 @@ const LoginPage: FC<LoginPageProps> = () => {
 
 		signInWithPopup(auth, provider)
 			.then((result) => {
-				const credential = GoogleAuthProvider.credentialFromResult(result!)
+				// const credential = GoogleAuthProvider.credentialFromResult(result!)
 
-				const user = {
-					id: result?.user.uid,
-					token: credential?.accessToken,
-					email: result?.user.email,
+				const user: IUser = {
+					id: result!.user.uid,
+					token: result!.user.refreshToken,
+					email: result!.user.email,
 				}
 
 				dispatch(addUser({ user }))

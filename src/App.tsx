@@ -12,7 +12,7 @@ function App() {
 		<Provider store={store}>
 			<BrowserRouter>
 				<NavBar />
-				<main className='container pt-5 pb-5'>
+				<main className='container pt-5 pb-4'>
 					<Alert />
 					<AppRouter />
 				</main>
