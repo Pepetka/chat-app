@@ -3,10 +3,11 @@ import { ref, set, onValue } from "firebase/database"
 import { db } from "../../services/firebase"
 import useAuth from "../../hooks/user-hook"
 import { useAppDispatch, useAppSelector } from "../../hooks/redux-hook"
-import { setMessages } from "../../store/slices/messageSlice"
+import { setChat, setMessages } from "../../store/slices/messageSlice"
 import Loader from "../Loader/Loader"
-import { IMessage } from "../../types"
+import { IMessage, IUserItem } from "../../types"
 import Message from "../Message/Message"
+import { setUsers } from "../../store/slices/usersListSlice"
 
 interface ChatProps {}
 
@@ -14,7 +15,7 @@ const Chat: FC<ChatProps> = () => {
 	const [message, setMessage] = useState("")
 	const { email } = useAuth()
 	const dispatch = useAppDispatch()
-	const { loading, messages } = useAppSelector((state) => state.messages)
+	const { loading, messages, currentChat } = useAppSelector((state) => state.messages)
 	const refUl = useRef<null | HTMLUListElement>(null)
 
 	const onMessageChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -24,7 +25,7 @@ const Chat: FC<ChatProps> = () => {
 	const onMessageSend = (event: FormEvent) => {
 		event.preventDefault()
 
-		set(ref(db, "notes/" + messages.length), {
+		set(ref(db, `chats/${currentChat.id}/` + messages.length), {
 			email: email,
 			date: new Date().toLocaleString(),
 			message,
@@ -34,8 +35,7 @@ const Chat: FC<ChatProps> = () => {
 	}
 
 	useEffect(() => {
-		const starCountRef = ref(db, "notes/")
-		onValue(starCountRef, (snapshot) => {
+		onValue(ref(db, `chats/${currentChat.id}/`), (snapshot) => {
 			const data: { [key: string]: IMessage } = snapshot.val()
 			const messagesArr: IMessage[] = []
 
@@ -48,6 +48,22 @@ const Chat: FC<ChatProps> = () => {
 			dispatch(setMessages({ messages: messagesArr }))
 		})
 		// eslint-disable-next-line
+	}, [currentChat.id])
+
+	useEffect(() => {
+		onValue(ref(db, `users/`), (snapshot) => {
+			const data: { [key: string]: IUserItem } = snapshot.val()
+			const usersArr: IUserItem[] = []
+
+			if (data) {
+				for (const key of Object.keys(data)) {
+					usersArr.push(data[key])
+				}
+			}
+
+			dispatch(setUsers({ users: usersArr }))
+		})
+		// eslint-disable-next-line
 	}, [])
 
 	useEffect(() => {
@@ -58,16 +74,24 @@ const Chat: FC<ChatProps> = () => {
 
 	return (
 		<>
+			<div className='list-group d-flex flex-row border border-primary justify-content-between align-items-center w-100 p-2 mb-3'>
+				{currentChat.id !== "general" ? (
+					<button
+						className='btn btn-primary'
+						onClick={() => dispatch(setChat({ chat: "general" }))}
+					>
+						Back
+					</button>
+				) : null}
+				<div className='text-primary mt-2 mb-2 ms-auto me-auto'>{currentChat.chatName}</div>
+			</div>
+
 			<ul
 				ref={refUl}
 				className='chat list-group d-flex border border-primary bg-primary bg-opacity-50'
 			>
-				{messages.map((messageItem) => (
-					<Message
-						key={messageItem.date}
-						messageItem={messageItem}
-						isUserMessage={email === messageItem.email}
-					/>
+				{messages.map((messageItem, i) => (
+					<Message key={i} messageItem={messageItem} isUserMessage={email === messageItem.email} />
 				))}
 			</ul>
 

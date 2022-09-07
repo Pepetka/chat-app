@@ -1,14 +1,14 @@
-import { createSlice } from "@reduxjs/toolkit"
-// import axios from "axios"
-// import { RootState } from ".."
-import { IUser } from "../../types"
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import axios from "axios"
+import { IUser, IUserItem } from "../../types"
 
-// const url = process.env.REACT_APP_DB_URL
+const url = process.env.REACT_APP_DB_URL
 
 interface IState {
 	loading: boolean
 	user: IUser
 	error: string | null
+	usersList: IUser[]
 }
 
 const initialState: IState = {
@@ -18,19 +18,31 @@ const initialState: IState = {
 		token: null,
 		email: null,
 	},
+	usersList: [],
 	error: null,
 }
 
-// export const setUser = createAsyncThunk<IUser, IUser, { state: RootState }>(
-// 	"user/setUser",
-// 	async (user) => {
-// 		const response = await axios.put(`${url}/users/${user.id}.json`, JSON.stringify(user))
+export const setUser = createAsyncThunk<any, IUser, { rejectValue: string }>(
+	"user/setUser",
+	async (user, { rejectWithValue }) => {
+		try {
+			const userItem: IUserItem = { id: user.id, email: user.email, chats: [] }
+			const response = await axios.get(`${url}/users/${user.id}.json`)
+			console.log(response)
 
-// 		if (response.statusText !== "OK") throw new Error("Server Error")
+			if (!response.data) {
+				const putResponse = await axios.put(`${url}/users/${user.id}.json`, userItem)
 
-// 		return response.data
-// 	}
-// )
+				if (putResponse.statusText !== "OK") throw new Error("Server Error")
+				console.log(putResponse)
+
+				return putResponse.data
+			}
+		} catch (error) {
+			return rejectWithValue((error as Error).message)
+		}
+	}
+)
 
 const userSlice = createSlice({
 	name: "user",
@@ -55,13 +67,11 @@ const userSlice = createSlice({
 			state.error = null
 		},
 	},
-	// extraReducers(builder) {
-	// 	builder.addCase(setUser.fulfilled, (state, action) => {
-	// 		state.loading = false
-	// 		state.user = action.payload
-	// 		state.error = null
-	// 	})
-	// },
+	extraReducers(builder) {
+		builder.addCase(setUser.rejected, (state, action) => {
+			state.error = action.payload!
+		})
+	},
 })
 
 export const { showLoader, addUser, setError, removeUser } = userSlice.actions

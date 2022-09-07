@@ -9,3 +9,14 @@ export interface IUser {
 	token: string | null
 	email: string | null
 }
+
+export interface IUserItem {
+	id: string | null
+	email: string | null
+	chats: IChat[]
+}
+
+export interface IChat {
+	email: string
+	chatId: string
+}
