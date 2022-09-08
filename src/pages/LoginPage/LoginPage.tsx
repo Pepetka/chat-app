@@ -4,7 +4,7 @@ import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 
 import Form, { Inputs } from "../../components/Form/Form"
 import { useAppDispatch, useAppSelector } from "../../hooks/redux-hook"
 import { REGISTER_ROUTE } from "../../utils/constants"
-import { showLoader, setError, addUser } from "../../store/slices/userSlice"
+import { showLoader, setError, addUser, setUser } from "../../store/slices/userSlice"
 import Loader from "../../components/Loader/Loader"
 import { auth } from "../../services/firebase"
 import { showAlert } from "../../store/slices/alertSlice"
@@ -28,6 +28,7 @@ const LoginPage: FC<LoginPageProps> = () => {
 				}
 
 				dispatch(addUser({ user }))
+				dispatch(setUser(user))
 
 				if (rememberMe) localStorage.setItem("user", JSON.stringify(user))
 			})
@@ -49,8 +50,6 @@ const LoginPage: FC<LoginPageProps> = () => {
 
 		signInWithPopup(auth, provider)
 			.then((result) => {
-				// const credential = GoogleAuthProvider.credentialFromResult(result!)
-
 				const user: IUser = {
 					id: result!.user.uid,
 					token: result!.user.refreshToken,
@@ -58,6 +57,7 @@ const LoginPage: FC<LoginPageProps> = () => {
 				}
 
 				dispatch(addUser({ user }))
+				dispatch(setUser(user))
 
 				localStorage.setItem("user", JSON.stringify(user))
 			})
@@ -74,7 +74,7 @@ const LoginPage: FC<LoginPageProps> = () => {
 
 	if (loading)
 		return (
-			<div className='w-75 m-auto pt-5'>
+			<div className='w-75 m-auto'>
 				<Loader />
 			</div>
 		)

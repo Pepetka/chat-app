@@ -21,3 +21,14 @@ code {
 	overflow-y: auto;
 	height: 70vh;
 }
+
+.chat-page {
+	width: 80%;
+	margin-inline: auto;
+}
+
+@media screen and (max-width: 576px) {
+	.chat-page {
+		width: 100%;
+	}
+}

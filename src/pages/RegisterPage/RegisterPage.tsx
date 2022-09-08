@@ -4,7 +4,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth"
 import Form, { Inputs } from "../../components/Form/Form"
 import { LOGIN_ROUTE } from "../../utils/constants"
 import { useAppDispatch, useAppSelector } from "../../hooks/redux-hook"
-import { showLoader, setError, addUser } from "../../store/slices/userSlice"
+import { showLoader, setError, addUser, setUser } from "../../store/slices/userSlice"
 import Loader from "../../components/Loader/Loader"
 import { auth } from "../../services/firebase"
 import { showAlert } from "../../store/slices/alertSlice"
@@ -27,6 +27,7 @@ const RegisterPage: FC<RegisterPageProps> = () => {
 				}
 
 				dispatch(addUser({ user }))
+				dispatch(setUser(user))
 
 				if (rememberMe) localStorage.setItem("user", JSON.stringify(user))
 			})
@@ -43,7 +44,7 @@ const RegisterPage: FC<RegisterPageProps> = () => {
 
 	if (loading)
 		return (
-			<div className='w-75 m-auto pt-5'>
+			<div className='w-75 m-auto'>
 				<Loader />
 			</div>
 		)
