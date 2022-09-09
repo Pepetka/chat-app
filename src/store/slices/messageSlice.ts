@@ -88,9 +88,13 @@ const messageSlice = createSlice({
 			state.loading = false
 			state.error = action.payload.error
 		},
-		setChat(state, action) {
-			state.currentChat.id = action.payload.chat
+		setChat(state) {
+			state.currentChat.id = "general"
 			state.currentChat.chatName = "General chat"
+		},
+		setNewChat(state, action) {
+			state.currentChat.id = action.payload.id
+			state.currentChat.chatName = action.payload.chatName
 		},
 	},
 	extraReducers(builder) {
@@ -112,5 +116,5 @@ const messageSlice = createSlice({
 	},
 })
 
-export const { setMessages, setError, setChat } = messageSlice.actions
+export const { setMessages, setError, setChat, setNewChat } = messageSlice.actions
 export default messageSlice.reducer

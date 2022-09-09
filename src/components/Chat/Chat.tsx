@@ -3,7 +3,7 @@ import { ref, set, onValue } from "firebase/database"
 import { db } from "../../services/firebase"
 import useAuth from "../../hooks/user-hook"
 import { useAppDispatch, useAppSelector } from "../../hooks/redux-hook"
-import { setChat, setMessages } from "../../store/slices/messageSlice"
+import { setChat, setMessages, setNewChat } from "../../store/slices/messageSlice"
 import Loader from "../Loader/Loader"
 import { IMessage, IUserItem } from "../../types"
 import Message from "../Message/Message"
@@ -16,6 +16,7 @@ const Chat: FC<ChatProps> = () => {
 	const { email } = useAuth()
 	const dispatch = useAppDispatch()
 	const { loading, messages, currentChat } = useAppSelector((state) => state.messages)
+	const { users } = useAppSelector((state) => state.usersList)
 	const refUl = useRef<null | HTMLUListElement>(null)
 
 	const onMessageChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -46,9 +47,20 @@ const Chat: FC<ChatProps> = () => {
 			}
 
 			dispatch(setMessages({ messages: messagesArr }))
+
+			if (snapshot.key === "general") {
+				dispatch(setChat())
+			} else {
+				const chatEmail = users.filter(
+					(user) =>
+						user.chats.filter((chat) => chat.chatId === snapshot.key && chat.email === email).length
+				)[0].email
+
+				dispatch(setNewChat({ id: snapshot.key, chatName: chatEmail }))
+			}
 		})
 		// eslint-disable-next-line
-	}, [currentChat.id])
+	}, [currentChat])
 
 	useEffect(() => {
 		onValue(ref(db, `users/`), (snapshot) => {
@@ -76,10 +88,7 @@ const Chat: FC<ChatProps> = () => {
 		<>
 			<div className='list-group d-flex flex-row border border-primary justify-content-between align-items-center w-100 p-2 mb-3'>
 				{currentChat.id !== "general" ? (
-					<button
-						className='btn btn-primary'
-						onClick={() => dispatch(setChat({ chat: "general" }))}
-					>
+					<button className='btn btn-primary' onClick={() => dispatch(setChat())}>
 						Back
 					</button>
 				) : null}

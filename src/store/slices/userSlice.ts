@@ -8,7 +8,6 @@ interface IState {
 	loading: boolean
 	user: IUser
 	error: string | null
-	usersList: IUser[]
 }
 
 const initialState: IState = {
@@ -18,7 +17,6 @@ const initialState: IState = {
 		token: null,
 		email: null,
 	},
-	usersList: [],
 	error: null,
 }
 
@@ -28,13 +26,11 @@ export const setUser = createAsyncThunk<any, IUser, { rejectValue: string }>(
 		try {
 			const userItem: IUserItem = { id: user.id, email: user.email, chats: [] }
 			const response = await axios.get(`${url}/users/${user.id}.json`)
-			console.log(response)
 
 			if (!response.data) {
 				const putResponse = await axios.put(`${url}/users/${user.id}.json`, userItem)
 
 				if (putResponse.statusText !== "OK") throw new Error("Server Error")
-				console.log(putResponse)
 
 				return putResponse.data
 			}
