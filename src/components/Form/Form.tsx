@@ -40,7 +40,7 @@ const Form: FC<FormProps> = ({ title, onSubmitUser }) => {
 					<input
 						type='email'
 						placeholder='example@example.com'
-						className='form-control'
+						className='form-control secondary-elem primary-text'
 						{...register("email")}
 					/>
 				</label>
@@ -49,17 +49,25 @@ const Form: FC<FormProps> = ({ title, onSubmitUser }) => {
 			<div className='mb-3'>
 				<label className='form-label w-100'>
 					Password
-					<input type='password' className='form-control' {...register("password")} />
+					<input
+						type='password'
+						className='form-control secondary-elem primary-text'
+						{...register("password")}
+					/>
 				</label>
 				{errors.password && <div className='form-text text-danger'>{errors.password?.message}</div>}
 			</div>
 			<div className='mb-3 form-check'>
 				<label className='form-check-label w-100'>
-					<input type='checkbox' className='form-check-input' {...register("rememberMe")} />
+					<input
+						type='checkbox'
+						className='form-check-input secondary-elem'
+						{...register("rememberMe")}
+					/>
 					Remember me
 				</label>
 			</div>
-			<button type='submit' className='btn btn-primary'>
+			<button type='submit' className='btn primary-elem'>
 				{title}
 			</button>
 		</form>

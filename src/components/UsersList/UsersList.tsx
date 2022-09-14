@@ -43,12 +43,12 @@ const UsersList: FC<UsersListProps> = () => {
 					.map((user) => {
 						return (
 							<li
-								className='list-group-item d-flex justify-content-between align-items-center p-2'
+								className='list-group-item d-flex justify-content-between align-items-center p-2 secondary-elem'
 								key={user.id}
 							>
-								<span className='mt-2 mb-2'>{user.email}</span>
+								<span className='mt-2 mb-2 primary-text'>{user.email}</span>
 								{currentChat.chatName !== user.email ? (
-									<button className='btn btn-primary' onClick={() => onChangeChat(user.id!)}>
+									<button className='btn primary-elem' onClick={() => onChangeChat(user.id!)}>
 										Chat
 									</button>
 								) : null}

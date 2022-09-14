@@ -88,11 +88,11 @@ const Chat: FC<ChatProps> = () => {
 		<>
 			<div className='list-group d-flex flex-row border border-primary justify-content-between align-items-center w-100 p-2 mb-3'>
 				{currentChat.id !== "general" ? (
-					<button className='btn btn-primary' onClick={() => dispatch(setChat())}>
+					<button className='btn primary-elem' onClick={() => dispatch(setChat())}>
 						Back
 					</button>
 				) : null}
-				<div className='text-primary mt-2 mb-2 ms-auto me-auto'>{currentChat.chatName}</div>
+				<div className='primary-text mt-2 mb-2 ms-auto me-auto'>{currentChat.chatName}</div>
 			</div>
 
 			<ul
@@ -110,10 +110,14 @@ const Chat: FC<ChatProps> = () => {
 						onChange={onMessageChange}
 						value={message}
 						type='text'
-						className='form-control border border-primary'
+						className='form-control border border-primary secondary-elem primary-text'
 						placeholder='Enter message'
 					/>
-					<button className='btn btn-outline-primary' type='submit' onClick={onMessageSend}>
+					<button
+						className='btn primary-elem border border-primary'
+						type='submit'
+						onClick={onMessageSend}
+					>
 						Send
 					</button>
 				</div>

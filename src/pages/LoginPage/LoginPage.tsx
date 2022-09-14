@@ -80,7 +80,7 @@ const LoginPage: FC<LoginPageProps> = () => {
 		)
 
 	return (
-		<div className='w-75 m-auto pt-5'>
+		<div className='w-75 m-auto pt-5 text-start'>
 			<h1 className='text-center'>Login</h1>
 			<Form title='Login' onSubmitUser={onSubmitUser} />
 			<div className='mt-2'>
@@ -89,7 +89,11 @@ const LoginPage: FC<LoginPageProps> = () => {
 					Register
 				</Link>
 			</div>
-			<button onClick={onLogin} type='button' className='btn btn-outline-primary w-100 mt-3'>
+			<button
+				onClick={onLogin}
+				type='button'
+				className='btn btn-outline-primary w-100 mt-3 primary-elem'
+			>
 				Login with Google
 			</button>
 		</div>

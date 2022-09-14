@@ -3,7 +3,7 @@ import { FC } from "react"
 interface AboutPageProps {}
 
 const AboutPage: FC<AboutPageProps> = () => (
-	<div className='h-100 p-5 bg-light border rounded-3 mt-5'>
+	<div className='h-100 p-5 border rounded-3 mt-5 primary-elem text-start'>
 		<h2>About Chat App</h2>
 		<p>
 			<strong>App version: </strong> v2.0.1

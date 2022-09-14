@@ -1,0 +1,48 @@
+@import "./dark/dark.scss";
+@import "./light/light.scss";
+
+.App {
+	background-color: var(--bg-primary-color);
+	color: var(--primary-color);
+
+	min-height: 100vh;
+
+	.default-elem {
+		background-color: var(--bg-primary-color);
+		color: var(--primary-color);
+	}
+
+	.primary-elem {
+		background-color: var(--bg-button-color);
+		color: var(--primary-color);
+	}
+
+	.secondary-elem {
+		background-color: var(--bg-secondary-color);
+		color: var(--secondary-color);
+	}
+
+	.primary-link {
+		color: var(--secondary-color);
+
+		&.active {
+			color: var(--primary-color);
+		}
+	}
+
+	.secondary-link {
+		color: var(--primary-color);
+
+		&.active {
+			color: var(--secondary-color);
+		}
+	}
+
+	.primary-text {
+		color: var(--primary-color);
+	}
+
+	.secondary-text {
+		color: var(--secondary-color);
+	}
+}

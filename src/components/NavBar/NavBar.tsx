@@ -17,18 +17,18 @@ const NavBar: FC<NavBarProps> = () => {
 	}
 
 	return (
-		<nav className='navbar navbar-dark navbar-expand bg-primary d-flex justify-content-between ps-3 pe-3'>
+		<nav className='navbar navbar-expand d-flex justify-content-between ps-3 pe-3 primary-elem'>
 			<div className='container-fluid'>
 				<div className='d-flex justify-content-between'>
-					<div className='navbar-brand'>Chat App</div>
+					<div className='navbar-brand primary-text'>Chat App</div>
 					<ul className='navbar-nav'>
 						<li className='nav-item'>
-							<NavLink className='nav-link' to={CHAT_ROUTE}>
+							<NavLink className='nav-link primary-link' to={CHAT_ROUTE}>
 								Chat
 							</NavLink>
 						</li>
 						<li className='nav-item'>
-							<NavLink className='nav-link' to={ABOUT_ROUTE}>
+							<NavLink className='nav-link primary-link' to={ABOUT_ROUTE}>
 								About
 							</NavLink>
 						</li>
@@ -38,11 +38,11 @@ const NavBar: FC<NavBarProps> = () => {
 				<ul className='navbar-nav'>
 					<li className='nav-item'>
 						{isAuth ? (
-							<NavLink className='nav-link' to={LOGIN_ROUTE} onClick={onLogout}>
+							<NavLink className='nav-link primary-link' to={LOGIN_ROUTE} onClick={onLogout}>
 								Logout
 							</NavLink>
 						) : (
-							<NavLink className='nav-link' to={LOGIN_ROUTE}>
+							<NavLink className='nav-link primary-link' to={LOGIN_ROUTE}>
 								Login
 							</NavLink>
 						)}
