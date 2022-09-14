@@ -53,7 +53,8 @@ const Chat: FC<ChatProps> = () => {
 			} else {
 				const chatEmail = users.filter(
 					(user) =>
-						user.chats.filter((chat) => chat.chatId === snapshot.key && chat.email === email).length
+						user.chats?.filter((chat) => chat.chatId === snapshot.key && chat.email === email)
+							.length === 1
 				)[0].email
 
 				dispatch(setNewChat({ id: snapshot.key, chatName: chatEmail }))

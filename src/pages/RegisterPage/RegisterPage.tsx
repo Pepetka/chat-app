@@ -50,7 +50,7 @@ const RegisterPage: FC<RegisterPageProps> = () => {
 		)
 
 	return (
-		<div className='w-75 m-auto pt-5'>
+		<div className='w-75 m-auto pt-5 text-start'>
 			<h1 className='text-center'>Register</h1>
 			<Form title='Register' onSubmitUser={onSubmitUser} />
 			<div className='mt-2'>
